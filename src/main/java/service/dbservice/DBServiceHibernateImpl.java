@@ -24,7 +24,6 @@ public class DBServiceHibernateImpl implements DBService {
     private final String CONFIG_PATH = "/hibernate.properties";
     private final Configuration configuration;
 
-
     public DBServiceHibernateImpl() {
         configuration = new Configuration();
         properties = new Properties();
@@ -36,7 +35,6 @@ public class DBServiceHibernateImpl implements DBService {
         }
         configuration.addProperties(properties);
         configuration.addAnnotatedClass(UserNote.class);
-
         sessionFactory = createSessionFactory(configuration);
     }
 
@@ -48,9 +46,7 @@ public class DBServiceHibernateImpl implements DBService {
     }
 
     @Override
-    public void prepareTable() throws SQLException {
-
-    }
+    public void prepareTable() throws SQLException {}
 
     @Override
     public String getMetaData() {
@@ -65,30 +61,8 @@ public class DBServiceHibernateImpl implements DBService {
         }
     }
 
-//    public void saveUsers(String... names) throws SQLException {
-//        runTransaction(session -> {
-//            UserNoteDao dao = new UserNoteDao(session);
-//            UserDataSet user;
-//            for (String name: names){
-//                user = new UserDataSet();
-//                user.setName(name);
-//                user.setLogin(name+user.hashCode());
-//                dao.save(user);
-//            }
-//            return true;
-//        });
-//    }
-
     @Override
-    public <T extends UserNote> String getUserName(int id, Class<T> clazz) throws SQLException {
-        return runTransaction(session -> {
-            UserNoteDao dao = new UserNoteDao(session);
-            return dao.readUserNameById(id,clazz);
-        });
-    }
-
-    @Override
-    public <T extends UserNote> List<String> getAllNames(Class<T> clazz) throws SQLException {
+    public <T extends UserNote> List<String> getAllNotes(Class<T> clazz) throws SQLException {
         return runTransaction(session -> {
             UserNoteDao dao = new UserNoteDao(session);
             return dao.readAllNames(clazz);
@@ -105,7 +79,7 @@ public class DBServiceHibernateImpl implements DBService {
     }
 
     @Override
-    public <T extends UserNote> T load(long id, Class<T> clazz) {
+    public <T extends UserNote> T get(int id, Class<T> clazz) {
         return runTransaction(session -> {
             UserNoteDao dao = new UserNoteDao(session);
             return dao.read(id,clazz);
@@ -113,34 +87,8 @@ public class DBServiceHibernateImpl implements DBService {
     }
 
     @Override
-    public <T extends UserNote> List<T> getAllUsers(Class<T> clazz) {
-        return runTransaction(session -> {
-            UserNoteDao dao = new UserNoteDao(session);
-            return dao.readAllUsers(clazz);
-        });
-    }
+    public void delete(int id) {
 
-    public <T extends UserNote> long getUsersNumber(Class<T> clazz) {
-        return runTransaction(session -> {
-            UserNoteDao dao = new UserNoteDao(session);
-            return dao.getUsersNumber(clazz);
-        });
-    }
-
-    public <T extends UserNote> boolean existLogin(String login, Class<T> clazz){
-        return runTransaction(session -> {
-            UserNoteDao dao = new UserNoteDao(session);
-           List<String> logins = dao.getAllLogins(clazz);
-           return logins.contains(login);
-        });
-    }
-
-    @Override
-    public <T extends UserNote> T getUserByLogin(String login, Class<T> clazz) {
-        return runTransaction(session -> {
-            UserNoteDao dao = new UserNoteDao(session);
-            return dao.readUserByLogin(login,clazz);
-        });
     }
 
     private <T> T runTransaction(Function<Session,T> function){
