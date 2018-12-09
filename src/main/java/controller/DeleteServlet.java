@@ -3,7 +3,6 @@ package controller;
 import model.UserNote;
 import service.dbservice.DBService;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

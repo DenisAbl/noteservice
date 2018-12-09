@@ -1,5 +1,6 @@
 
 import controller.*;
+import org.eclipse.jetty.util.resource.Resource;
 import service.dbservice.DBService;
 
 import org.eclipse.jetty.server.Server;
@@ -13,11 +14,12 @@ import service.dbservice.DummyDBService;
 public class Main {
 
     private static final int PORT = 8080;
-    private static final String HTML_PATH = "src/main/java/view";
+    private static final String HTML_PATH = "/static";
 
     public static void main(String[] args) throws Exception {
         ResourceHandler resourceHandler = new ResourceHandler();
-        resourceHandler.setResourceBase(HTML_PATH);
+        Resource resource = Resource.newClassPathResource(HTML_PATH);
+        resourceHandler.setBaseResource(resource);
         resourceHandler.setWelcomeFiles(new String[]{"index.html"});
 
         DBService dbService = new DBServiceHibernateImpl();
