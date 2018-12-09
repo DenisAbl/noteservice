@@ -24,11 +24,10 @@ public class UserNoteDao {
            return session.load(clazz,id);
     }
 
-    public <T extends UserNote> List<String> readAllNames(Class<T> clazz) {
+    public <T extends UserNote> List<T> readAllNames(Class<T> clazz) {
         CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<String> query = builder.createQuery(String.class);
-        Root<T> root = query.from(clazz);
-        query.select(root.get("name"));
+        CriteriaQuery<T> query = builder.createQuery(clazz);
+        query.from(clazz);
         return session.createQuery(query).list();
     }
 }

@@ -8,6 +8,8 @@ import java.util.List;
 
 public class DummyDBService implements DBService {
 
+    private static int id;
+
     private final List<UserNote> NOTE_LIST;
 
     public DummyDBService(){
@@ -16,7 +18,7 @@ public class DummyDBService implements DBService {
 
     @Override
     public void prepareTable() throws SQLException {
-
+        System.out.println("Table is ready");
     }
 
     @Override
@@ -25,32 +27,30 @@ public class DummyDBService implements DBService {
     }
 
     @Override
-    public <T extends UserNote> List<String> getAllNotes(Class<T> clazz) throws SQLException {
-        List<String> allNotesList = new ArrayList<>();
-        String name;
-        for (UserNote note : NOTE_LIST){
-           name = note.getName();
-           if (name != null && !name.isEmpty()) allNotesList.add(name);
-           else {
-               name = note.getContent().substring(0,24) + "...";
-               allNotesList.add(name);
-           }
-        }
+    public <T extends UserNote> List<T> getAllNotes(Class<T> clazz) throws SQLException {
+        List<T> allNotesList = (List<T>) NOTE_LIST;
         return allNotesList;
     }
 
     @Override
     public <T extends UserNote> void save(T note) {
+        note.setId(++id);
         NOTE_LIST.add(note);
     }
 
     @Override
     public <T extends UserNote> T get(int id, Class<T> clazz) {
-        return (T)NOTE_LIST.get(id);
+        UserNote userNote = null;
+        for (UserNote note: NOTE_LIST){
+            if (note.getId() == id)  userNote = note;
+        }
+        return (T) userNote;
     }
 
     @Override
-    public void delete(int id) {
-        NOTE_LIST.remove(id);
+    public boolean delete(int id) {
+        int size = NOTE_LIST.size();
+        NOTE_LIST.removeIf(note -> note.getId() == id);
+        return size > NOTE_LIST.size();
     }
 }

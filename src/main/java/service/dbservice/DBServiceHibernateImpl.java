@@ -62,7 +62,7 @@ public class DBServiceHibernateImpl implements DBService {
     }
 
     @Override
-    public <T extends UserNote> List<String> getAllNotes(Class<T> clazz) throws SQLException {
+    public <T extends UserNote> List<T> getAllNotes(Class<T> clazz) throws SQLException {
         return runTransaction(session -> {
             UserNoteDao dao = new UserNoteDao(session);
             return dao.readAllNames(clazz);
@@ -87,8 +87,8 @@ public class DBServiceHibernateImpl implements DBService {
     }
 
     @Override
-    public void delete(int id) {
-
+    public boolean delete(int id) {
+        return false;
     }
 
     private <T> T runTransaction(Function<Session,T> function){

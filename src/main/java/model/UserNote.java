@@ -37,11 +37,11 @@ public class UserNote {
         this.content = content;
     }
 
-    long getId() {
+    public long getId() {
         return id;
     }
 
-    void setId(long id) {
+    public void setId(long id) {
         this.id = id;
     }
 }

@@ -2,7 +2,6 @@ package controller;
 
 import model.UserNote;
 import service.dbservice.DBService;
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +19,7 @@ public class AddNoteServlet extends HttpServlet {
         this.templateProcessor = templateProcessor;
     }
 
-    private static final String ADD_NOTE_PAGE_TEMPLATE = "addNotePage.html";
+    private static final String ADD_NOTE_PAGE_TEMPLATE = "addNote.html";
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -31,16 +30,15 @@ public class AddNoteServlet extends HttpServlet {
     }
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-//        Map<String, Object> pageVariables = createPageVariablesMap(request, response, dbService);
-//        String page = templateProcessor.getPage(ADD_NOTE_PAGE_TEMPLATE, pageVariables);
-        dbService.save(new UserNote(request.getParameter("noteName"),request.getParameter("noteContent")));
-        response.setStatus(HttpServletResponse.SC_OK);
+         String name = request.getParameter("noteName");
+         String content = request.getParameter("noteContent");
+         dbService.save(new UserNote(name, content));
+         response.setStatus(HttpServletResponse.SC_OK);
+         response.sendRedirect("/noteList");
     }
 
     private static Map<String, Object> createPageVariablesMap(HttpServletRequest request, HttpServletResponse response, DBService service) throws IOException {
         Map<String, Object> pageVariables = new HashMap<>();
-//        pageVariables.put("name",request.getParameter("name"));
-//        pageVariables.put("content",request.getParameter("content"));
         return pageVariables;
     }
 

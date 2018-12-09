@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Note List Page</title>
+</head>
+<body>
+
+<a href="noteList">Note list page</a> <a href="addNote">Add new note</a>
+
+<p></p>
+
+<form action="/note" method="GET">
+    Id: <input type="text" name = "id"/>
+    <input type="submit" value="View note">
+</form>
+
+<p></p>
+
+<form action="/deleteNote" method="GET">
+    Id: <input type="text" name = "id"/>
+    <input type="submit" value="Delete note">
+</form>
+
+<p></p>
+
+<form action="/searchNote" method="GET">
+   Request: <input type="text" name = "search_request"/>
+    <input type="submit" value="Search note">
+</form>
+
+<p></p>
+
+<p>List of notes:</p>
+
+
+<#if search_request?has_content>
+List for request "${search_request}"
+</#if>
+
+<p></p>
+
+    <#list noteList as notes>
+    <li> ${notes}</li>
+    <#else>
+    <p>No notes
+    </#list>
+
+</body>
+</html>

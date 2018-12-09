@@ -23,9 +23,11 @@ public class Main {
         TemplateProcessor templateProcessor = new TemplateProcessor();
 
         ServletContextHandler servletContext = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        servletContext.addServlet(new ServletHolder(new NoteListServlet(dbService, templateProcessor)),"/noteListPage");
-        servletContext.addServlet(new ServletHolder(new AddNoteServlet(dbService, templateProcessor)),"/addNotePage");
-        servletContext.addServlet(new ServletHolder(new NoteServlet(dbService, templateProcessor)),"/notePage");
+        servletContext.addServlet(new ServletHolder(new NoteListServlet(dbService, templateProcessor)),"/noteList");
+        servletContext.addServlet(new ServletHolder(new AddNoteServlet(dbService, templateProcessor)),"/addNote");
+        servletContext.addServlet(new ServletHolder(new NoteServlet(dbService, templateProcessor)),"/note");
+        servletContext.addServlet(new ServletHolder(new DeleteServlet(dbService, templateProcessor)),"/deleteNote");
+        servletContext.addServlet(new ServletHolder(new SearchServlet(dbService, templateProcessor)),"/searchNote");
 
         Server server = new Server(PORT);
         server.setHandler(new HandlerList(resourceHandler,servletContext));
