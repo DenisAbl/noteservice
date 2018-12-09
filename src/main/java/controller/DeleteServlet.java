@@ -38,7 +38,7 @@ public class DeleteServlet extends HttpServlet {
             response.getWriter().print(page);
             return;
         }
-        if (dbService.delete(noteId)){
+        if (dbService.delete(noteId,UserNote.class)){
             pageVariables = TemplateHelper.createPageVariablesMapForList(dbService);
             page = templateProcessor.getPage(NOTE_LIST_PAGE_TEMPLATE, pageVariables);
             response.getWriter().println(page);

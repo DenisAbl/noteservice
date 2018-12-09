@@ -16,6 +16,8 @@ public class UserNote {
     @Column(name = "content")
     private String content;
 
+    public UserNote(){}
+
     public UserNote(String name, String content) {
         this.name = name;
         this.content = content;

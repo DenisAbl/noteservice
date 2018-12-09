@@ -6,8 +6,6 @@ import java.util.List;
 
 public interface DBService {
 
-    void prepareTable() throws SQLException;
-
     String getMetaData();
 
     <T extends UserNote> List<T> getAllNotes(Class<T> clazz) throws SQLException;
@@ -16,5 +14,5 @@ public interface DBService {
 
     <T extends UserNote> T get(int id, Class<T> clazz);
 
-    boolean delete(int id);
+    <T extends UserNote> boolean delete(int id, Class<T> clazz);
 }

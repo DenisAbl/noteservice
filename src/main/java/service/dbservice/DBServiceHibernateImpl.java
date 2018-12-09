@@ -46,9 +46,6 @@ public class DBServiceHibernateImpl implements DBService {
     }
 
     @Override
-    public void prepareTable() throws SQLException {}
-
-    @Override
     public String getMetaData() {
         try {
             return "Connected to: " + configuration.getProperty("hibernate.connection.url") + "\n" +
@@ -65,7 +62,7 @@ public class DBServiceHibernateImpl implements DBService {
     public <T extends UserNote> List<T> getAllNotes(Class<T> clazz) throws SQLException {
         return runTransaction(session -> {
             UserNoteDao dao = new UserNoteDao(session);
-            return dao.readAllNames(clazz);
+            return dao.getAllNotes(clazz);
         });
     }
 
@@ -82,13 +79,17 @@ public class DBServiceHibernateImpl implements DBService {
     public <T extends UserNote> T get(int id, Class<T> clazz) {
         return runTransaction(session -> {
             UserNoteDao dao = new UserNoteDao(session);
-            return dao.read(id,clazz);
+            return dao.get(id,clazz);
         });
     }
 
     @Override
-    public boolean delete(int id) {
-        return false;
+    public <T extends UserNote> boolean delete(int id, Class<T> clazz ) {
+        return runTransaction(session -> {
+           UserNoteDao dao = new UserNoteDao(session);
+           return dao.delete(id,clazz);
+        });
+
     }
 
     private <T> T runTransaction(Function<Session,T> function){

@@ -7,6 +7,7 @@ import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import service.dbservice.DBServiceHibernateImpl;
 import service.dbservice.DummyDBService;
 
 public class Main {
@@ -19,7 +20,7 @@ public class Main {
         resourceHandler.setResourceBase(HTML_PATH);
         resourceHandler.setWelcomeFiles(new String[]{"index.html"});
 
-        DBService dbService = new DummyDBService();
+        DBService dbService = new DBServiceHibernateImpl();
         TemplateProcessor templateProcessor = new TemplateProcessor();
 
         ServletContextHandler servletContext = new ServletContextHandler(ServletContextHandler.SESSIONS);

@@ -17,11 +17,6 @@ public class DummyDBService implements DBService {
     }
 
     @Override
-    public void prepareTable() throws SQLException {
-        System.out.println("Table is ready");
-    }
-
-    @Override
     public String getMetaData() {
         return "No DataBase, just a dummy ArrayList";
     }
@@ -48,7 +43,7 @@ public class DummyDBService implements DBService {
     }
 
     @Override
-    public boolean delete(int id) {
+    public <T extends UserNote> boolean delete(int id, Class<T> clazz ) {
         int size = NOTE_LIST.size();
         NOTE_LIST.removeIf(note -> note.getId() == id);
         return size > NOTE_LIST.size();
